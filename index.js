@@ -1,5 +1,7 @@
 var TIMEOUT_IN_SECS = 3 * 60
+var TIMEOUT_IN_SECS = 3
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
+var MSG_TIMEOUT = 5
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -56,7 +58,7 @@ class TimerWidget{
     // adds HTML tag to current page
     this.timerContainer = document.createElement('div')
 
-    this.timerContainer.setAttribute("style", "height: 100px;")
+    this.timerContainer.setAttribute("style", "height: 100px; position: fixed; z-index: 1; top:20px; color: #4986a1")
     this.timerContainer.innerHTML = TEMPLATE
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
@@ -80,17 +82,70 @@ class TimerWidget{
 }
 
 
+class MessageDemonstrator {
+    constructor(){
+      this.counter = 0
+      this.MESSAGES_LIST = [
+    "Люблю я Работу, Зарплату люблю!\n" +
+    "Все больше себя я на этом ловлю.\n" +
+    "Люблю я и Босса; он - лучше других!\n" +
+    "И Боссова Босса и всех остальных.",
+
+    "Люблю я мой Офис, его размещение\n" +
+    "А к отпуску чувствую я отвращение.\n" +
+    "Люблю мою мебель, сырую и серую,\n" +
+    "Бумажки, в которых как в Бога я верую!",
+
+    "Люблю мое кресло в Ячейке без свету\n" +
+    "И в мире предмета любимее нету!\n" +
+    "Люблю я и равных мне по положению\n" +
+    "Их хитрые взгляды, насмешки, глумления.",
+
+    "Мой славный Дисплей и Компьютер я лично\n" +
+    "Украдкой целую, хоть им безразлично ...\n" +
+    "И каждую прогу опять и опять,\n" +
+    "Я время от времени силюсь понять!!",
+
+    "Я счастлив быть здесь; и пока не ослаб\n" +
+    "Любимой работы счастливейший раб.\n" +
+    "Я нормы и сроки работ обожаю,\n" +
+    "Люблю совещанья, хоть там засыпаю.",
+
+    "Люблю я Работу - скажу без затей;\n" +
+    "И этих нарядных, всех в белом людей,\n" +
+    "Пришедших сегодня меня навестить,\n" +
+    "С желаньем куда-то меня поместить !!"
+]
+    }
+
+    show_message(){
+      window.alert(this.MESSAGES_LIST[this.counter])
+      this.counter += 1
+      if (this.counter >= this.MESSAGES_LIST.length){
+        this.counter = 0
+      }
+    }
+}
+
 function main(){
 
   var timer = new Timer(TIMEOUT_IN_SECS)
   var timerWiget = new TimerWidget()
   var intervalId = null
+  var messageDemonstrator = new MessageDemonstrator()
 
   timerWiget.mount(document.body)
 
   function handleIntervalTick(){
     var secsLeft = timer.calculateSecsLeft()
+    if (secsLeft === 0) {
+      messageDemonstrator.show_message()
+      timer = new Timer(MSG_TIMEOUT);
+      secsLeft = timer.calculateSecsLeft();
+      timer.start();
+    }
     timerWiget.update(secsLeft)
+
   }
 
   function handleVisibilityChange(){
