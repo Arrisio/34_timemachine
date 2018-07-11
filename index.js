@@ -1,7 +1,6 @@
 var TIMEOUT_IN_SECS = 3 * 60
-var TIMEOUT_IN_SECS = 3
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
-var MSG_TIMEOUT = 5
+var MSG_TIMEOUT = 30
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -164,9 +163,6 @@ function main(){
   handleVisibilityChange()
 }
 
-if (document.readyState === "complete" || document.readyState === "loaded") {
-  main();
-} else {
-  // initialize timer when page ready for presentation
-  window.addEventListener('DOMContentLoaded', main);
-}
+// initialize timer when page ready for presentation
+window.addEventListener('load', main)
+
