@@ -57,7 +57,7 @@ class TimerWidget{
     // adds HTML tag to current page
     this.timerContainer = document.createElement('div')
 
-    this.timerContainer.setAttribute("style", "height: 100px; position: fixed; z-index: 1; top:20px; color: #4986a1")
+    this.timerContainer.setAttribute("style", "height: 100px; position: fixed; z-index: 2; top:20px; color: #4986a1")
     this.timerContainer.innerHTML = TEMPLATE
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
